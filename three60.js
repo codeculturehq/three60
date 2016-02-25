@@ -27,7 +27,7 @@ var three60 = function three60() {
   self.imageFrame         = false;
 
   // initialize
-  self.init = function(container, fileName, totalFrames) {
+  self.init = function(container, fileName, totalFrames, loaderCallback) {
     self.container = document.querySelector("#" + container);
     self.canvas = document.getElementById(container);
     self.canvasContext = self.canvas.getContext("2d");
@@ -35,21 +35,25 @@ var three60 = function three60() {
     self.totalFrames = totalFrames - 1;
     self.frameIndex = totalFrames;
     self.containerName = container;
+    self.loaderCallback = loaderCallback;
+
     Math.easeOutCirc = function(b, d, a, c) {
       return a * Math.sqrt(1 - (b = b / c - 1) * b) + d
     };
     window.requestAnimFrame = (function() {
       return window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-      };
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          };
     })();
 
-    // TODO: add loader.
+    if(self.loaderCallback != null) {
+        self.loaderCallback(0, self.totalFrames);
+    }
     self.setCanvasDimension();
     self.loadFrames();
   };
@@ -64,6 +68,9 @@ var three60 = function three60() {
         self.imageObjects[i].src = self.fileName.replace("{i}", i);
       }
       self.imageObjects[i].onload = function() {
+        if(self.loaderCallback != null) {
+          self.loaderCallback(self.framesLoaded, self.totalFrames);
+        }
         self.framesLoaded++;
         if (self.framesLoaded === self.totalFrames) {
           self.canvasContext.drawImage(this, 0, 0);
