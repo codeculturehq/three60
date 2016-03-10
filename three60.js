@@ -216,10 +216,6 @@ function three60() {
       self.canvasContext.drawImage(this, 0, 0);
     }
   };
-<<<<<<< Updated upstream
-}
-=======
 };
 
 module.exports = three60;
->>>>>>> Stashed changes
