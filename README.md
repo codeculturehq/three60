@@ -18,4 +18,4 @@ The first argument is the canvas id, the second is the path of the pool of image
 
 
 ### License
-MIT Copyright (c) [Juan Cabrera](http://juan.me/) changes by [codeculture](http://www.codeculture.de)
+MIT Copyright (c) [Juan Cabrera](http://juan.me) changes by [codeculture](http://www.codeculture.de)
