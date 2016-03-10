@@ -39,13 +39,13 @@ function three60() {
     };
     window.requestAnimFrame = (function() {
       return window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-      };
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          };
     })();
 
     // TODO: add loader.
@@ -95,15 +95,15 @@ function three60() {
         e.preventDefault();
         self.down(e.touches[0].pageX);
       });
-      self.canvas.addEventListener("touchmove", function(e) {
+      window.addEventListener("touchmove", function(e) {
         e.preventDefault();
         self.move(e.touches[0].pageX);
       });
-      self.canvas.addEventListener("touchend", function(e) {
+      window.addEventListener("touchend", function(e) {
         e.preventDefault();
         self.up();
       });
-      self.canvas.addEventListener("touchcancel", function(e) {
+      window.addEventListener("touchcancel", function(e) {
         e.preventDefault();
         self.up();
       });
@@ -114,22 +114,12 @@ function three60() {
       e.preventDefault();
       self.down(e.screenX);
     });
-    self.container.addEventListener("mousemove", function(e) {
+    window.addEventListener("mousemove", function(e) {
       e.preventDefault();
       self.move(e.screenX);
     });
-    self.container.addEventListener("mouseup", function(e) {
+    window.addEventListener("mouseup", function(e) {
       e.preventDefault();
-      self.up();
-    });
-    self.container.addEventListener("mouseout", function(e) {
-      e.preventDefault();
-      var relatedTarget = ("relatedTarget" in e? e.relatedTarget : e.toElement);
-      if (relatedTarget) {
-        if (relatedTarget.id === self.containerName) {
-          return false;
-        }
-      }
       self.up();
     });
   };
@@ -145,11 +135,11 @@ function three60() {
       self.frameSpeed = (parseInt(Math.abs(self.lastScreenX - x) * 0.05) === 0 ? 1 : parseInt(Math.abs(self.lastScreenX - x) * 0.05));
       self.lastFrameIndex = self.frameIndex;
       if (x > self.lastScreenX) {
-        self.frameIndex = self.frameIndex - self.frameSpeed;
+        self.frameIndex = self.frameIndex + self.frameSpeed;
         self.direction = "left";
       } else if (x < self.lastScreenX) {
         self.direction = "right";
-        self.frameIndex = self.frameIndex + self.frameSpeed;
+        self.frameIndex = self.frameIndex - self.frameSpeed;
       }
       if (self.frameIndex > self.totalFrames) {
         self.frameIndex = 1;
@@ -187,9 +177,9 @@ function three60() {
     if (self.inertiaFrameSpeed >= 1) {
       self.lastFrameIndex = self.frameIndex;
       if (self.direction === "right") {
-        self.frameIndex = self.frameIndex + Math.floor(self.inertiaFrameSpeed);
-      } else {
         self.frameIndex = self.frameIndex - Math.floor(self.inertiaFrameSpeed);
+      } else {
+        self.frameIndex = self.frameIndex + Math.floor(self.inertiaFrameSpeed);
       }
       if (self.frameIndex > self.totalFrames) {
         self.frameIndex = 1;
@@ -226,4 +216,6 @@ function three60() {
       self.canvasContext.drawImage(this, 0, 0);
     }
   };
-}
+};
+
+module.exports = three60;
