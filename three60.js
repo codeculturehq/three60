@@ -72,8 +72,12 @@ var three60 = function three60() {
           self.loaderCallback(self.framesLoaded, self.totalFrames);
         }
         self.framesLoaded++;
-        if (self.framesLoaded === self.totalFrames) {
+
+        if (self.framesLoaded === self.totalFrames || self.framesLoaded === 1) {
+          self.canvasContext.clearRect(0, 0, self.canvas.width, self.canvas.height);
           self.canvasContext.drawImage(this, 0, 0);
+        }
+        if (self.framesLoaded === self.totalFrames) {
           self.loadComplete();
         }
       };
