@@ -107,15 +107,15 @@ var three60 = function three60() {
         e.preventDefault();
         self.down(e.touches[0].pageX);
       });
-      window.addEventListener("touchmove", function(e) {
+      self.canvas.addEventListener("touchmove", function(e) {
         e.preventDefault();
         self.move(e.touches[0].pageX);
       });
-      window.addEventListener("touchend", function(e) {
+      self.canvas.addEventListener("touchend", function(e) {
         e.preventDefault();
         self.up();
       });
-      window.addEventListener("touchcancel", function(e) {
+      self.canvas.addEventListener("touchcancel", function(e) {
         e.preventDefault();
         self.up();
       });
