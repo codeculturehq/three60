@@ -58,6 +58,32 @@ var three60 = function three60() {
     self.loadFrames();
   };
 
+
+  self.destroy = function() {
+    self.debug              = true;
+    self.container          = null;
+    self.canvas           = null;
+    self.canvasContext    = null;
+    self.containerName      = null;
+    self.fileName           = null;
+    self.totalFrames        = null;
+    self.framesLoaded       = 0;
+    self.frameIndex         = 1;
+    self.lastFrameIndex     = 1;
+    self.dragging           = false;
+    self.lastScreenX        = 0;
+    self.inertiaInterval    = null;
+    self.direction          = null;
+    self.frameSpeed         = 0;
+    self.inertiaFrameSpeed  = 0;
+    self.timeInertia        = 0;
+    self.inertiaDuration    = 0;
+    self.imageObjects       = [];
+    self.RAFrunning         = false;
+    self.imageFrame         = false;
+  };
+
+
   self.loadFrames = function() {
     for (var i = 0; i <= self.totalFrames; i++) {
       self.imageObjects[i] = new Image();
