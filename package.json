@@ -1,6 +1,6 @@
 {
   "name": "three60",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "360 degree image viewer",
   "main": "three60.js",
   "scripts": {

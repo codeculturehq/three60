@@ -25,9 +25,10 @@ var three60 = function three60() {
   self.imageObjects       = [];
   self.RAFrunning         = false;
   self.imageFrame         = false;
+  self.defaultImageNumber = 0;
 
   // initialize
-  self.init = function(container, fileName, totalFrames, loaderCallback) {
+  self.init = function(container, fileName, totalFrames, loaderCallback, defaultImageNumber) {
     self.container = document.querySelector("#" + container);
     self.canvas = document.getElementById(container);
     self.canvasContext = self.canvas.getContext("2d");
@@ -36,6 +37,7 @@ var three60 = function three60() {
     self.frameIndex = totalFrames;
     self.containerName = container;
     self.loaderCallback = loaderCallback;
+    self.defaultImageNumber = defaultImageNumber;
 
     Math.easeOutCirc = function(b, d, a, c) {
       return a * Math.sqrt(1 - (b = b / c - 1) * b) + d
@@ -52,7 +54,7 @@ var three60 = function three60() {
     })();
 
     if(self.loaderCallback != null) {
-        self.loaderCallback(0, self.totalFrames);
+      self.loaderCallback(0, self.totalFrames);
     }
     self.setCanvasDimension();
     self.loadFrames();
@@ -81,6 +83,7 @@ var three60 = function three60() {
     self.imageObjects       = [];
     self.RAFrunning         = false;
     self.imageFrame         = false;
+    self.defaultImageNumber = 0;
   };
 
 
@@ -170,7 +173,13 @@ var three60 = function three60() {
 
   self.move = function(x) {
     if (self.dragging) {
-      self.frameSpeed = (parseInt(Math.abs(self.lastScreenX - x) * 0.05) === 0 ? 1 : parseInt(Math.abs(self.lastScreenX - x) * 0.05));
+      var frameSpeed = 1;
+      if(self.defaultImageNumber > 0) {
+        frameSpeed = (parseInt(Math.round(self.totalFrames / self.defaultImageNumber)) === 0 ? 1 : parseInt(Math.round(self.totalFrames / self.defaultImageNumber)))
+      }
+
+      self.frameSpeed = (parseInt(Math.abs(self.lastScreenX - x) * 0.05) === 0 ? frameSpeed : parseInt(Math.abs(self.lastScreenX - x) * 0.05));
+
       self.lastFrameIndex = self.frameIndex;
       if (x > self.lastScreenX) {
         self.frameIndex = self.frameIndex + self.frameSpeed;
